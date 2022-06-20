@@ -9,6 +9,14 @@
 %% Sets page size and margins
 \usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 
+%%\usepackage{setspace}
+
+% compact toc
+\usepackage{tocloft}
+
+% strikeout text \st
+\usepackage{soul}
+
 %% Useful packages
 \usepackage{amsmath,amssymb}
 \usepackage{amsthm}
@@ -41,36 +49,41 @@
 \newcommand\filledcirc{{\color{black}\bullet}\mathllap{\circ}}
 \renewcommand{\todo}[1]{{\color{red}TODO: #1}}
 
+%\renewcommand\cftchapafterpnum{\vskip0pt}
+%\renewcommand\cftsecafterpnum{\vskip0pt}
+
 \title{The NICEGUT trial: A randomised, placebo-controlled trial of oral nitazoxanide for the empiric treatment of acute gastroenteritis among Australian Indigenous children - Statistical Analysis Plan}
-\author{Jones, M.$^{1}$ $\dots$}
+\author{Jones, M.$^{1}$, Marsh, J.A.$^{2}$, Waddington, C.$^{3}$, Snelling, T. L. $^{1}$, \\ }
 
 \begin{document}
 \maketitle
 
-
-
 $^*$Corresponding author (email: \texttt{mark.jones1@usyd.edu.au}) \\
 $^1$School of Public Health \\
 The University of Sydney \\
-Sydney, Australia \\
+Sydney, NSW, Australia \\
 ~ \\
-%%~ \\
-%%$^2$The Telethon Kids Institute \\
-%%Perth Children's Hospital, 
-%%Perth, Australia 
+$^2$Wesfarmers Centre of Vaccines and Infectious Diseases \\
+Telethon Kids Institute \\
+University of Western Australia \\
+Perth, WA, Australia \\
+~ \\
+$^3$Department of Medicine, University of Cambridge \\
+University of Oxford \\
+Cambridge, England, United Kingdom
 
 \newcommand{\newbf}[1]{\mbox{\boldmath{$#1$}}}
 
 \begin{center}\textbf{Summary}
 \end{center}
 
-NICEGUT is a two-arm, multi-centre, randomised controlled trial being run in Australia that investigates the effectiveness of nitazoxanide compared to placebo in reducing the duration of significant illness amongst Australian Indigenous children with acute gastroenteritis. 
+NICEGUT is a prospective, multi-centre, phase IV, double-blind, randomised, placebo-controlled, Bayesian adaptive trial.
+The trial is being run in Australia and investigates the effectiveness of nitazoxanide compared to placebo in reducing the duration of significant illness amongst Australian Indigenous children with acute gastroenteritis. 
 The trial sample size is adaptive with a maximum of 300 participants to be enrolled.
 Regular pre-specified Bayesian analyses are used to evaluate decision rules that determine whether the trial should be stopped due to sufficient evidence of treatment effectiveness, or futility. 
-Herein we describe the statistical analysis plan for the trial, and define the pre-specified decision rules, including those that could lead to the trial being halted.
+We describe the statistical analysis plan for the trial and define the pre-specified decision rules, including those that could lead to the trial being halted.
 The primary outcome is the time from randomisation to the time where a participant achieves a score $\ge$ 2 on the medical readiness for discharge scoring system.
 The primary analysis uses a time-to-event regression model and will follow the intention-to-treat principle.  
-
 
 %%\newcommand{\newbf}[1]{\mbox{\boldmath{$#1$}}}
 
@@ -98,12 +111,20 @@ Research: HREC-2014-2172
 
 \clearpage
 
+%\onehalfspacing
 \tableofcontents
 
 \clearpage
 
 
 \section{Introduction}
+
+\subsection{Purpose and scope of plan}
+
+This statistical analysis plan (SAP) details the statistical design and methods for the NICEGUT trial. 
+Analyses will be carried out in accordance with this SAP. 
+Any significant deviation from the CI approved original SAP will be discussed with the study statistician and reflected in any publications arising out of this study.
+Plans for the analysis of any qualitative outcomes or bio-specimens generated during the trial are beyond the scope of this document.
 
 \subsection{Background and rationale}
 
@@ -113,10 +134,8 @@ Frequent and severe enteric infections have also been associated with growth-fal
 Within Australia, Aboriginal and Torres Strait Islander children suffer a heavy burden of diarrhoeal and intestinal infectious disease.
 In this population, both the rates and severity of disease are significantly higher than in non-Aboriginal infants.
 
-A number of small, randomised trials have suggested that compared with no treatment or placebo, recovery is faster among children treated with nitazoxanide (NTZ) for infectious diarrhoea and for diarrhoea where no enteropathogens are found \cite{Waddingtone019632}.
-Based on this data, we anticipate that NTZ treatment could decrease the median duration of medically significant illness by 1 day, which is considered to be the minimum useful decrease of relevance in the study setting.
+A number of small, randomised trials have suggested that, compared with no treatment or placebo, recovery is faster among children treated with nitazoxanide (NTZ) for infectious diarrhoea and for diarrhoea where no enteropathogens are found \cite{Waddingtone019632}.
 The seemingly broad range of enteropathogens for which efficacy has been shown or asserted based on in vitro data, raises the prospect of empiric use of NTZ for the syndromic treatment of paediatric infectious diarrhoea.
-
 
 \subsection{Objectives and outcomes}
 
@@ -126,11 +145,10 @@ The primary endpoint, \textit{duration of significant illness}, is defined as th
     \item the time to achieve a score ≥2 on the `medical readiness for discharge' scoring system \cite{Waddingtone019632} as assessed by the study doctor or study nurse, or
     \item the time to actual hospital discharge
 \end{enumerate}
-with exception for children who die, discharge against advice or are transferred to other health facilities, whichever is sooner, all of which will be censored at the time they were last observed\footnote{Death represents informative censoring - it is a competing risk as it negates the possibility of recovery. Thus, censoring on death can lead to bias. However, it is believed that death is very unlikely in this setting therefore it should not cause major concern.}.
+with exception for children who die, discharge against advice or are transferred to other health facilities, whichever is sooner.
 Follow up is to 60 days (the full extent of follow up).
 
 Secondary objectives are detailed in Table \ref{table:objs}.
-
 
 \begin{table}[H]
 \centering
@@ -138,14 +156,14 @@ Secondary objectives are detailed in Table \ref{table:objs}.
 \hline
  Objective & Outcome \\  
  \hline\hline
- To determine the effect of treatment with ORAL NTZ compared to placebo for actual duration of hospitalisation. &  Duration of hospitalisation\textsuperscript{1}, defined as the time from randomisation until actual discharge from hospital (which can be some time after a participant was assessed as medically suitable for discharge)  \\ 
+ To determine the effect of treatment with ORAL NTZ compared to placebo for actual duration of hospitalisation. &  Duration of hospitalisation, defined as the time from randomisation until actual discharge from hospital. This duration will likely differ from the primary outcome in that it is common for patients within this population to remain in hospital for a period of time after they reach medical readiness for discharge.  \\ 
 \hline \\
 \SetCell[r=4]{h}To determine the effect of treatment with ORAL NTZ compared to placebo on illness severity.
 & 
 Number of stools and vomiting episodes during the period of significant illness  \\
 \cline{2-2}
 & 
-The presence and severity of symptoms from the time of randomisation to day 7, based on the number of vomits/diarrhoea, overall symptoms and activity level  \\
+The presence and severity of symptoms (what symptoms?) from the time of randomisation to day 7, based on the number of vomits/diarrhoea, overall symptoms and activity level  \\
 \cline{2-2}
  & 
 The presence and severity of dehydration based on WHO guidelines \\
@@ -153,44 +171,34 @@ The presence and severity of dehydration based on WHO guidelines \\
 &
 The time between starting intravenous (IV), intraosseous (IO) or nasogastric (NG) rehydration or randomisation (whichever occurs later) and ceasing rehydration. \\
 \hline
-\SetCell[c=2]{m, 14cm} \footnotesize{1. Patients in this population commonly remain in hospital after the time at which they reach medical readiness for discharge.}  \\
-\hline
-blah \\
+why
 \hline
 \end{tblr}
 \caption{Secondary objectives and outcome measures}
 \label{table:objs}
 \end{table}
 
-
-
-Safety outcomes are discussed in the protocol \cite{Waddingtone019632} and include adverse events attributed to the study drug, mortality at 60 days, recurrent gastroenteritis within 60 days of enrolment, new onset malnutrition (not pre-existing) requiring medical assessment/intervention within 60 days of enrolment and prolongation of symptoms beyond 7 days.
-
-\subsection{Purpose and scope of plan}
-This statistical analysis plan (SAP) details the statistical design and methods for the NICEGUT trial. 
-Analyses will be carried out in accordance with this SAP. 
-Any significant deviation from the CI approved original SAP will be discussed with the study statistician and reflected in any publications arising out of this study.
-Plans for the analysis of any qualitative outcomes or bio-specimens generated during the trial are beyond the scope of this document.
+Safety outcomes are discussed in the protocol \cite{Waddingtone019632} and include adverse events attributed to the study drug, mortality within 60 days enrolment, recurrent gastroenteritis within 60 days of enrolment, new onset malnutrition (not pre-existing) requiring medical assessment/intervention within 60 days of enrolment and prolongation of symptoms beyond 7 days after enrolment.
 
 \subsection{Trial status}
 
-On February 28th 2022, the trial steering committee\footnote{Please complete} made the decision to halt the trial due to exhaustion of available resources.
+On February 28th 2022, the trial steering committee made the decision to halt the trial due to exhaustion of available resources\footnote{Please can someone add some more detail here if it is deemed necessary? Otherwise, let me know that this is sufficient.}.
 
 \section{Study design}
 
 \subsection{Overview}
 
 NICEGUT is a multi-centre (Royal Darwin Hospital and Alice Springs Hospital), phase IV, double-blind, randomised, placebo-controlled, Bayesian adaptive trial.
-The design includes interim analyses and early stopping rules.
+The design includes mulitple interim analyses and early stopping rules.
 The primary objective is to determine whether empiric treatment with oral NTZ, compared with placebo, reduces the duration of significant illness in Aboriginal children hospitalised for acute gastroenteritis.
 Participants are randomised 1:1 to NTZ or placebo up to a maximum sample size of 300 children.
 Follow up is from the point of enrolment until 60 days after enrolment.
 
-The trial was originally conceived as a frequentist study with a single analysis at a planned sample size of 400 children, but was converted to a Bayesian trial in 2018 prior to any analyses of the data due to funding limitations and variable recruitment rates due to fluctuations in disease prevalence\footnote{Check for correctness}.
+The trial was originally conceived as a frequentist study with a single analysis at a planned sample size of 400 children, but was converted to a Bayesian trial in 2018 prior to any analyses of the data due to funding limitations and variable recruitment rates due to fluctuations in disease prevalence\footnote{Please correct if necessary.}.
 
 \subsection{Target population}
 
-NICEGUT aims to recruit Australian Aboriginal children aged ≥3 months and less than 5 years of age, hospitalised for less than 48 hours with a primary diagnosis of acute gastroenteritis (in the opinion of the admitting doctor or the study nurse).
+NICEGUT aims to recruit Australian Aboriginal children aged between 3 months\footnote{This should have been defined in weeks or days.} and less than 5 years of age, hospitalised for less than 48 hours with a primary diagnosis of acute gastroenteritis (in the opinion of the admitting doctor or the study nurse).
 Additional requirements for eligibility can be found in the protocol \cite{Waddingtone019632}.
 Exclusion criteria include one or more of the following:
 \begin{enumerate}
@@ -202,91 +210,58 @@ Exclusion criteria include one or more of the following:
     \item non-availability of oral route for drug administration
 \end{enumerate}
 
-\subsection{Design}
+\subsection{Sample size}
 
-NICEGUT adopts a Bayesian, adaptive design with a single adaptation relating to sample size.
-It is a superiority trial with stopping rules implemented to govern early stopping for either futility or  success. 
+Given the adaptive structure, the sample size for NICEGUT is a random variable.
+The minimum sample size the trial could be stopped was 126 participants.
+A maximum sample size of 300 participants will be randomised unless a pre-specified stopping rule is met at an interim analysis or the trial is stopped for other reasons.
 
-Patients are randomised in a 1:1 allocation to one of two treatment arms: 
+Trial operating characteristics, including the expected sample size, type 1 error rate and power were derived by simulation for a range of scenarios.
+The simulations were implemented in the FACTS \cite{facts} clinical trial simulation software and a summary on trial operating characteristics is provided in the operating characteristics summary (pg. \pageref{summary-of-operating-characteristics}).
+
+\subsection{Randomisation and blinding}
+
+Patients will be randomised in a 1:1 allocation to one of two treatment arms: 
 
 \begin{itemize}
     \item Nitazoxanide 7.5mg/kg/dose for infants < 1 year old or 100mg for children 1 to 3 years of age or 200mg for children 4 years of age, 12 hourly on six occasions orally or by nasogastric/enteric tube
     \item Placebo, 12 hourly on six occasions orally or by nasogastric/enteric tube
 \end{itemize}
 
-up to a maximum sample size of 300. 
-Interim analyses occur at sample sizes 126, 150, 170, 190, 210, 230, 250, 270 where the the effect of NTZ compared to placebo is evaluated for the primary outcome.
+The randomisation list was computer-generated, using a constant block size of six.
+Additionally, the randomisation was stratified by:
 
-Predictive probabilities (derived from the repeat simulation and evaluation of  realisations of future trial participants) are used to determine whether to continue the trial or stop early before the maximum sample size of 300. 
-The decision rules for stopping the trial early are detailed in Table \ref{table:decn} and further detail is provided under the primary analysis section.
-If no decision rule is met then enrolment continues.
+\begin{itemize}
+    \item age (<1 year or ≥ 1 year);
+    \item hospital (RDH or ASH)\footnote{This should be included in the model as a design variable.}; and
+    \item location of residence (urban or remote).
+\end{itemize}
 
-\begin{table}[H]
-\centering
-\begin{tblr}{|p{7cm}|p{2cm}|p{2cm}|p{2cm}|}
-\hline
- Rule & Interim & Decision threshold & Decision   \\ 
- \hline\hline
- \SetCell[r=2]{m,7cm} {Stop enrolment for futility because the proportion of successful simulated trials was less than the decision threshold implying a low predictive probability of trial success.} & 
- 1-4 & 
-  $\le$ 20\% &
-  \SetCell[r=2]{m,2cm}{Futility}  \\  \cline{2-3}
- &
- 5-8 &  
- $\le$ 40\% \\
-\hline
- \SetCell[r=2]{m,7cm} {Stop enrolment for expected success because the proportion of successful simulated trials was less than the decision threshold implying a high predictive probability of a trial success.} & 
- 1-4 & 
- $\ge$ 99\% &
-  \SetCell[r=2]{m,2cm}{Success} \\ \cline{3-4}
- &
- 5-8 &  
- $\ge$ 98\% \\
-\hline
-\hline
-\end{tblr}
-\caption{Trial decision rules and thresholds}
-\label{table:decn}
-\end{table}
+The allocation ratio within each strata was 1:1.
+The allocation sequence will be concealed from all investigators and research staff until completion of the study.
+Analyses will be conducted unmasked to treatment allocation.
 
-
-%%This figure was determined by simulation to control the false positive rate to < 0.05 over a range of scenarios and indicated a 0.96 probability of successful trial under a moderate treatment effect (hazard ratio of 1.6) relative to a baseline period of significant illness equal to 4 days.
-
-\subsection{Sample size}
-
-The minimum sample size at which the trial could be stopped was 126 participants.
-A maximum sample size of 300 participants will be randomised unless a pre-specified stopping rule is met at an interim analysis or the trial is stopped for other reasons.
-
-Given the adaptive trial structure, the sample size is a random variable and there is no suitable closed form approach to calculate power under specified false positive rates.
-Therefore, the trial operating characteristics, including the expected sample size, type 1 error rate and power were derived by simulation.
-The simulations were implemented in the FACTS \cite{facts} clinical trial simulation software and a summary on trial operating characteristics is provided in a later section.
-
-\subsection{Randomisation and blinding}
-
-The randomisation list was computer-generated, using varying block sizes\footnote{What were the block sizes?}, stratified by age (<1 year or ≥ 1 year), hospital (RDH or ASH)\footnote{This should be included in the model as a design variable.} and by location of residence (urban or remote).
-Location of residence was defined according to the Australian Government Department of Health Australian Statistical Geography Standard (ASGS) remoteness areas where urban covers those areas defined as outer regional or remote in the ASGS remoteness scale and remote covers those areas described as very remote in the ASGS remoteness scale on the night before admission. 
-The allocation ratio within these strata was 1:1 active NTZ:placebo.
-Randomisation code breaks are only to be used if a situation arises where it is deemed necessary by the Chief Investigator (CI) to break the blinding process for compelling medical or safety reasons. 
-The allocation sequence is concealed from all investigators and research staff until completion of the study.
-Neither the investigators nor the participant (or their carer) are informed of whether placebo or NTZ was given.
-Analyses are conducted unmasked to treatment allocation.
+Neither the investigators nor the participant (or their carer) will be informed as to whether placebo or NTZ was given.
+Randomisation code breaks will only to be used if a situation arises where it is deemed necessary by the Chief Investigator (CI) to break the blinding process for compelling medical or safety reasons. 
 
 \section{Data management and derivation of outcomes}
 
 \subsection{Data sources}
 
-Data is sourced from a Clinical Record Form (CRF) and parent-reported diary card and supplemented by data from laboratory and pharmacy records and medical records based on reviews performed at Study Day 30 and Day 60.
-Data entry to the trial database is completed by staff blinded to treatment allocation.
+Data will be sourced from a Clinical Record Form (CRF), parent-reported diary card, laboratory and pharmacy records along with medical records based on reviews performed at Study Day 30 and Day 60.
+Data entry will be completed by staff blinded to treatment allocation.
 All final planned analyses identified in the protocol and this SAP will be performed only after the last enrolled patient has completed Study Day 60 and the data quality has been verified.
 
 Only Data and Safety Monitoring Board (DSMB) members and the statisticians responsible for developing the  closed-session reports for DSMB meetings will have access to unblinded interim data and results.
 
 \subsection{Derivations}
 
+The following section elucidates how variables, relevant to the trial analyses, are to be derived.
+
 \subsubsection{Duration of significant illness}
 
-Duration (in hours, minutes and seconds) of significant illness is measured between randomisation and the end of significant illness.
-End of significant illness is defined as when the patient scores $\ge$ 2 on the medical readiness for discharge or when actually medically discharged (i.e. not absconded nor transferred nor deceased).
+Duration of significant illness is measured between randomisation and the end of significant illness.
+End of significant illness is defined as the date and time when the patient scores $\ge$ 2 on the medical readiness for discharge or when they are actually medically discharged (i.e. not absconded nor transferred nor deceased).
 This will be derived as:
 
 \begin{enumerate}
@@ -296,51 +271,56 @@ This will be derived as:
 
 \subsubsection{Duration of hospitalisation}
 
-Duration (in hours, minutes and seconds) of hospitalisation is defined as the time from randomisation until actual discharge from hospital\footnote{It is different from the primary by virtue of including the time after being assessed as medically suitable for discharge.}.
+Duration of hospitalisation is defined as the time from randomisation until actual discharge from hospital\footnote{It is different from the primary by virtue of including the time after being assessed as medically suitable for discharge.}.
 This will be derived as the time difference between variables \texttt{RANDDT} and \texttt{RANDTM} compared to \texttt{DISCHDT} and \texttt{DISCHTM}.
 
 \subsubsection{Number of stools and vomiting episodes}
 
-Number of stools and vomiting episodes are defined as the total frequency of the number of stools and vomiting episodes over the time period of significant illness.
+Number of stools and vomiting episodes are defined as the total frequency of the number of stools and vomiting episodes over the duration of significant illness.
 This will be derived from variables \texttt{DIARRHNO} and \texttt{VOMITNO}.
 
 \subsubsection{Severity of symptoms} 
 
-Todo - please advise.
-Severity of solicited symptoms and dehydration will be analysed for the first 210 participants only. The presence and maximum severity of solicited symptoms associated with gastroenteritis (vomiting, diarrhoea, overall symptoms and activity level), as measured by a study doctor/ nurse, will be summarised by frequency and percentage for each grade by treatment group, for each study day from the calendar day of randomisation (study day 1) to the end of study day 7, or hospital discharge, whichever occurs first.
-
+\textit{This isn't what this section is for.}
+\st{Severity of solicited symptoms and dehydration will be analysed for the first 210 participants only.
+The presence and maximum severity of solicited symptoms associated with gastroenteritis (vomiting, diarrhoea, overall symptoms and activity level), as measured by a study doctor/ nurse, will be summarised by frequency and percentage for each grade by treatment group, for each study day from the calendar day of randomisation (study day 1) to the end of study day 7, or hospital discharge, whichever occurs first.}
 
 \subsubsection{Dehydration} 
-Presence and severity of dehydration will be analysed for the first 210 participants only. The number and proportion of participants assessed as being dehydrated will be summarised for each treatment group, and for each study day, from the calendar day of randomisation (study day 1) to the end of study day 7, or hospital discharge, whichever occurs first. Where present, severity of dehydration will be classified as mild, moderate or severe, and the number and proportion of participants in each severity grade will be summarised by frequency and percentage for treatment group, and for each study day from the calendar day of randomisation (study day 1) to the end of study day 7, or hospital discharge, whichever occurs first.   
-Todo - please advise.
+
+\textit{This isn't what this section is for.}
+\st{Presence and severity of dehydration will be analysed for the first 210 participants only.
+The number and proportion of participants assessed as being dehydrated will be summarised for each treatment group, and for each study day, from the calendar day of randomisation (study day 1) to the end of study day 7, or hospital discharge, whichever occurs first.
+Where present, severity of dehydration will be classified as mild, moderate or severe, and the number and proportion of participants in each severity grade will be summarised by frequency and percentage for treatment group, and for each study day from the calendar day of randomisation (study day 1) to the end of study day 7, or hospital discharge, whichever occurs first.}
 
 \subsection{Saftey data}
 
 Adverse events (AEs), serious adverse events (SAEs) and measures of study conduct and implementation by treatment group will be monitored on a regular basis by the DSMB.
 
-\subsubsection{Adverse events}
-Serious Adverse Events will be recorded from the point of enrolment until day 60. SAEs are defined as any untoward medical occurrence that: 
-• results in death
-• is life-threatening
-• requires inpatient hospitalisation or prolongation of existing
-hospitalisation
-• results in persistent or significant disability/incapacity
-• consists of a congenital anomaly or birth defect.
-The number and brief description of all SAEs will be reported, along with the assessment of whether or not it was attributed to the study drug, and whether resolved. SAEs will be summarised for each treatment group. 
+\subsubsection{Serious Adverse events}
 
-Medically significant Adverse Events are defined and derived as follows:
+Serious Adverse Events will be recorded from the point of enrolment until day 60.
+SAEs are defined as any untoward medical occurrence that: 
 
-\begin{enumerate}
-    \item Mortality within 60 days of randomisation indicated by variables \texttt{DECYN} and \texttt{DECDT}.
-    \item Recurrent gastroenteritis requiring health care assessment and/or intervention within 60 days of randomisation indicated by\footnote{Advise.}
-    \item Malnutrition not present on index admission, requiring health care assessment and/or intervention within 60 days of randomisation indicated by\footnote{Advise.}
-    \item Prolongation of acute gastroenteritis beyond day 7 after randomisation indicated by:
-    \begin{itemize}
-        \item For those participants who remain in hospital after study day 7 (variable \texttt{DAY7YN}): Date of gastroenteritis resolution (from Participant Discharge page) more than 7 days after randomisation based on variable \texttt{GASTDT}; 
-        \item For those participants who are discharged ≤ study day 7 but excluding participants transferred to another hospital or those who died (variable \texttt{DISCHREAS}): any occurrence of gastroenteritis recorded in the Study Day 30 or Day 60 reviews (variable \texttt{MSEVENT}) which commenced prior to date of last treatment dose (based on variables \texttt{LSTDSDT} and \texttt{MSEVENTSTDT})
-    \end{itemize}
-\end{enumerate}
+\begin{itemize}
+    \item results in death
+    \item is life-threatening
+    \item requires inpatient hospitalisation or prolongation of existing hospitalisation
+    \item results in persistent or significant disability or incapacitation
+    \item consists of a congenital anomaly or birth defect.
+\end{itemize}
 
+%Derivations guidelines are as follows:
+
+%%\begin{enumerate}
+%%    \item Mortality within 60 days of randomisation indicated by variables \texttt{DECYN} and \texttt{DECDT}.
+%%    \item Recurrent gastroenteritis requiring health care assessment and/or intervention within 60 days of randomisation indicated by\footnote{Advise.}
+%%    \item Malnutrition not present on index admission, requiring health care assessment and/or intervention within 60 days of randomisation indicated by\footnote{Advise.}
+%%    \item Prolongation of acute gastroenteritis beyond day 7 after randomisation indicated by:
+%%    \begin{itemize}
+%%        \item For those participants who remain in hospital after study day 7 (variable \texttt{DAY7YN}): Date of gastroenteritis resolution (from Participant Discharge page) more than 7 days after randomisation based on variable \texttt{GASTDT}; 
+%%        \item For those participants who are discharged ≤ study day 7 but excluding participants transferred to another hospital or those who died (variable \texttt{DISCHREAS}): any occurrence of gastroenteritis recorded in the Study Day 30 or Day 60 reviews (variable \texttt{MSEVENT}) which commenced prior to date of last treatment dose (based on variables \texttt{LSTDSDT} and \texttt{MSEVENTSTDT})
+%%    \end{itemize}
+%%\end{enumerate}
 
 \subsubsection{Adverse events attributed to the study treatment:}
 
@@ -350,7 +330,6 @@ Indicated by a coding of `yes' for variable \texttt{AEREL}.
 
 Indicated by a coding of `yes' for variable \texttt{AESER}.
 
-
 \section{Analysis - general considerations}
 
 \subsection{Analysis populations}
@@ -359,28 +338,40 @@ The intention-to-treat (ITT) population is defined as all randomised participant
 This population is intended to represent patients reflective of what might be seen if the treatment was used in clinical practice.
 This population forms the basis of the primary analysis and participants will be analysed in the group they were randomised to, irrespective of subsequent receipt of the correct study drug and adherence to protocol.
 
-The completer population is defined as all randomised children with observed outcome data, specifically:
+The per-protocol (PP) population is defined as all randomised participants with observed outcome data and:
 \begin{itemize}
     \item have signed the requisite consent forms and successfully completed the screening assessments; and
     \item have been adherent to study treatment (or the actual treatment received in case of randomisation or drug administration error) prior to the time of discharge; and
     \item have received no bias or interference that may interfere with potential study treatment effect, either according to the protocol or in the view of the study investigators.
 \end{itemize}
-The completer population will be analysed in a secondary data analysis.
-Participants receiving rescue treatment\footnote{what constitutes rescue treatment?} with NTZ will be excluded from the completer population analysis.
+The PP population will be analysed in a secondary data analysis.
+Participants receiving any rescue treatment including with NTZ will be excluded from the completer population analysis.
 
 \subsection{Participant flowchart}
 
 The flow of participants through the trial will be reported following CONSORT guidelines.
-As a minimum we will include the number of participants randomly assigned, received allocated treatment, followed up, withdrawn and analysed for the primary outcome.
+As a minimum we will include the number of participants that: 
+
+\begin{itemize}
+    \item were randomised
+    \item received allocated treatment
+    \item were followed up
+    \item withdrew and 
+    \item were analysed for the primary outcome
+\end{itemize}
+
 Protocol deviations and information regarding screening information and number of ineligible participants randomised will be reported to the extent that this information is available.
 
 \subsection{Descriptive statistics}
 
 Baseline characteristics of participants will be summarised both overall and by randomised group, including stratification factors and important demographic and clinical characteristics.
-Binary and un-ordered categorical variables will be summarised using number, number missing and proportions.
+Primary, secondary and other applicable outcomes will be similarly summarised.
+
+Binary and un-ordered categorical variables will be reported using number, number missing and proportions/percentage.
 Continuous variables that have a symmetrical distribution will be summarised using number, number missing, mean and standard deviation.
 Continuous variables that are asymmetrical and ordered categorical variables will be summarised using number, number missing, median and interquartile range.
-There will be no tests of statistical significance nor confidence intervals for differences between randomised groups with respect to any baseline variable.
+
+There will be no tests of statistical significance nor confidence intervals for differences between baseline characteristics of randomised groups.
 
 \subsection{Baseline characteristics of participants}
 
@@ -400,7 +391,6 @@ Characteristics of participants to be described include\footnote{This is specula
     \item height
     \item mid upper arm circumference
 \end{itemize}
-
 
 \subsection{Protocol Adherence}
 
@@ -428,16 +418,22 @@ Model covariates will be imputed where supporting evidence is available to imply
 
 \subsection{Analysis software}
 
-All data manipulations, calculation of summary statistics, tabulations, listings, analyses and graphics will be performed using the R \cite{R}, Stan \cite{Carpenter2017, RStan} and FACTS \cite{facts}.
+All data manipulations, calculation of summary statistics, tabulations, listings, analyses and graphics will be performed using R \cite{R}, Stan \cite{Carpenter2017, RStan} and FACTS \cite{facts}.
 
-\section{Primary analysis}
+\subsection{Quality control}
 
-Our inferential targets are two-fold - (i) the treatment effect on the hazard of medical readiness for discharge to 60 days (extent of follow up) adjusted\footnote{See earlier query on site.} for age group (<1 year or 1-4 years) and geographical region (remote or urban) and (ii) the predictive probability of trial success at the maximum sample size.
+Analyses will be subjected to review by a statistician from University of Sydney or Telethon Kids institute who has no other involvement in the trial.
+
+\section{Primary analysis}\label{primary-analysis}
+
+Our inferential targets are two-fold (i) the treatment effect on the hazard of medical readiness for discharge to 60 days (extent of follow up) adjusted for age group (<1 year or 1-4 years) and geographical region (remote or urban) and site and (ii) the predictive probability of trial success at the maximum sample size.
 In the event of early stopping we will report both.
 
-\subsection{Primary outcome}
+\subsection{Duration of significant illness}
 
-Inference on the duration of significant illness will be based on hazards scale models and all associated results will be documented in the clinical trial report.
+Inference on the duration of significant illness will be based on models that evaluate the intensity (hazard) of the primary outcome.
+Deviations from the stated modelling approach are permissible at the discretion of the analyst, but must be reported and justified to the DSMB and within all relevant trial reports.
+All associated results will be documented in the clinical trial report.
 For the primary outcome we will initially assume a proportional hazards model:
 
 \begin{align*}
@@ -465,6 +461,7 @@ h_0(t) = \begin{cases}
 \end{equation}
 
 for some suitably selected set of quantiles $q$ obtained from the empirical distribution of time.
+Our decision processes (see pg. \pageref{trial-adaptations-and-decision-procedures}) will be based on the posterior inference from this model.
 
 In order to account for deviations from the proportional hazards assumption, we can allow the linear predictor to be time-varying, i.e. 
 
@@ -501,26 +498,110 @@ and the linear predictor would have a form akin to
 
 where a non-proportional hazards violation is assumed to have arisen with some $\beta_1$ that is now decomposed into $\beta_{1, 1}$ and $\beta_{1, 2}$.
 
-Clearly, a non-proportional hazard model implies the potential for multiple treatment effects if the treatment term violates proportional hazards.
-In this situation we will consider the restricted mean survival time (RMST) to the end of day 7\footnote{Is this a meaningful timeframe or should we go to administrative censoring at 60 days?} by treatment group as a summary measure of group differences.
+As the non-proportional hazard model implies the potential for varying treatment effects over time, we will consider the restricted mean survival time (RMST) to the end of day 7 by treatment group as a summary measure of group differences.
 
 For all terms in the linear predictor we will assume zero-centred normal priors with a variance of $10^2$ and for the baseline hazard we assume a weakly informative gamma prior with shape (18) and scale (100) hyper-parameters, which was set to give a daily event rate of approximately 1.21 per week\footnote{Assuming a constant hazard model, think of $-\log(0.5)/4 = 0.173$ then multiply that by 7.} corresponding to a median duration of significant illness equal to 4 days, but also consistent with observations anywhere between zero and above 80 days.
-The analyst has discretion to modify these priors should problems arise, however, all variations must be reported to the DSMB and documented in the relevant trial reports.
 
 Posterior summaries for the model parameters will be presented in terms of point estimates and credible intervals.
 To further aid with interpretation, figures visualising the marginal density of treatment comparisons will be provided.
 
-\subsection{Decision procedures}
+\section{Secondary analyses}
 
-Decision procedures are based on the primary outcome as documented above.
-The proportional-hazards piecewise exponential model adjusted for age group and geographical location was nominated as the basis for all trial decisions.
-Deviations from this model (for example where the proportional-hazards assumption is violated or problems arising with  estimation or fit) are permissible at the discretion of the analyst, but must be reported to the DSMC and within all relevant trial reports.
+\subsection{Length of stay}
+
+Length of stay (total duration of hospitalisation) will be modelled following methods equivalent to those specified for the primary outcome. 
+
+\subsection{Stools and vomiting episodes}
+
+Frequency of stools and vomiting will be modelled using poisson regression (or analogous approach if the poisson likelihood is deemed inappropriate).
+
+\subsection{Symptoms - presence and severity}
+
+Symptom presence and severity will be modelled by adopting a cumulative logistic regression model.
+Groups will be collapsed as necessary.
+
+\subsection{Dehydration - presence and severity}
+
+Presence of dehydration will be modelled by adopting a logistic regression model, or cumulative logistic regression model if ordinal information on severity is available.
+For cumulative logistic regression, groups will be collapsed as necessary.
+
+\subsection{Rehydration}
+
+Rehydration (total duration of IV, IO or NG rehydration from randomisation) will be modelled following methods equivalent to those specified for the primary outcome. 
+
+\section{Safety analyses}
+
+Safety analyses are to be restricted to descriptive summaries.
+
+The frequency of mortality within 60 days of randomisation, recurrent gastroenteritis requiring health care assessment and/or intervention within 60 days of randomisation, malnutrition and prolongation of acute gastroenteritis beyond day 7 after randomisation, are to be reported. 
+
+For each SAE, ratings by treatment group are to be summarised by frequencies and grouping per the relationship of each SAE to study medication (none, unlikely, possible, or probable).
+
+Line listings by treatment group will be provided for all safety event types.
+
+\section{Sensitivity analyses}
+
+Sensitivity analyses will concentrate on prior specifications examining the impact of varying priors (skeptical, enthusiastic, non-informative).
+Any post-hoc analyses undertaken are to be reported as such.
+
+\section{Subgroup analyses}
+
+Subgroup analyses to explore treatment heterogeneity were originally pre-specified on pathogen type (bacteria, virus or parasite), rotavirus vaccination status, age and illness severity.
+However, given the relatively small maximum sample size, we consider subgroup analyses will likely be misleading at best and have therefore made the decision not to pursue any investigation of treatment heterogeneity.
+In addition, we note that it is now uncommon for children to be unvaccinated.
+This means there will likely be insufficient numbers to stratify on vaccination status.
+
+\section{Trial adaptations and decision procedures}\label{trial-adaptations-and-decision-procedures}
+
+As the trial proceeds, the accrued information will be used to make decisions on the future progression of the trial based on pre-specified adaptations and decision rules.
+All adaptations and decision procedures will be based on the joint posterior from the proportional hazards piecewise exponential model, as documented in the primary analysis section (pg. \pageref{primary-analysis}).
+
+\subsection{Sequential analyses}
+
+Interim analyses occur at sample sizes 126, 150, 170, 190, 210, 230, 250, 270.
+At each interim we simulate trial progression assuming (i) stopping immediately and following up all current enrolments, and (ii) enrolment continues to the maximum sample size of 300 participants.
+Simulations are conditional on the joint posterior derived from the observed responses and observed participant characteristics in the current enrolled cohort.
+The simulated outcomes impute the participants who are yet to reach their endpoint and/or participants who are yet to enrol.
+The results from each simulated trial are summarised to compute predictive probabilities of trial success, which governs whether the trial will continue/cease enrolment based on the rules defined in the following sections.
+
+\subsection{Decision rules}
+
 The probability threshold for concluding evidence of a beneficial treatment effect on the basis of the marginal posterior distribution is 0.975.
-That is, we require $\text{Pr}(\theta > 1) > 0.975$ to conclude a beneficial treatment effect, i.e. the `hazard' of medical readiness for discharge is increased in the treatment group.
+That is, we require $\text{Pr}(\theta > 1) > 0.975$ to conclude a beneficial treatment effect, where $\theta$ corresponds to the treatment effect, i.e. the `hazard' of medical readiness for discharge in the treatment group relative to the control group.
 
-At each interim analysis between 126 and 270 enrolments, we simulate trial progression assuming (i) stopping immediately and following up all current enrolments, and (ii) enrolment continues to the maximum sample size of 300 participants.
-Simulations are conditional on the joint posterior and observed characteristics of the enrolled cohort and serve the function of imputing the participants who are yet to reach their endpoint and/or participants who are yet to enrol.
-The results from the simulated trials are used to compute predictive probabilities of trial success, which governs whether the trial will continue/cease enrolment based on the rules defined in the following sections.
+Predictive probabilities (derived from repeatedly simulating and evaluating realisations of future trial participants) are used to determine whether to continue the trial or stop early before the maximum sample size of 300. 
+The decision rules for stopping the trial early are detailed in Table \ref{table:decn} and further detail is provided under the primary analysis section.
+If no decision rule is met then enrolment continues.
+
+\begin{table}[H]
+\centering
+\begin{tblr}{|p{7cm}|p{2cm}|p{2cm}|p{2cm}|}
+\hline
+ Rule & Interim & Decision threshold & Decision   \\ 
+ \hline\hline
+ \SetCell[r=2]{m,7cm} {Stop enrolment for futility because the proportion of successful simulated trials was less than the decision threshold implying a low predictive probability of trial success.} & 
+ 1-4 & 
+  $\le$ 20\% &
+  \SetCell[r=2]{m,2cm}{Futility}  \\  \cline{2-3}
+ &
+ 5-8 &  
+ $\le$ 40\% \\
+\hline
+ \SetCell[r=2]{m,7cm} {Stop enrolment for expected success because the proportion of successful simulated trials was less than the decision threshold implying a high predictive probability of a trial success.} & 
+ 1-4 & 
+ $\ge$ 99\% &
+  \SetCell[r=2]{m,2cm}{Success} \\ \cline{3-4}
+ &
+ 5-8 &  
+ $\ge$ 98\% \\
+\hline
+\hline
+\end{tblr}
+\caption{Trial decision rules and thresholds}
+\label{table:decn}
+\end{table}
+
+
 
 \subsubsection{Trial success}
 
@@ -532,53 +613,9 @@ That is, if more than 99\%/98\% of simulated trials (either to the current or ma
 Trial futility is concluded if, at any interim analysis, the predictive probability of a positive benefit in the NTZ arm is less than 20\% for sample sizes up to 210 children or less than 40\% for sample sizes between 210-270 children.
 That is, if fewer than 20\%/40\% of simulated trials (either to the current or maximum sample size) exceed the probability threshold for concluding evidence of a beneficial treatment effect then we will stop the trial for futility.
 
-\section{Secondary analyses}
-
-\subsection{Length of stay}
-
-Length of stay (total duration of hospitalisation) is to be modelled following methods equivalent to those specified for the primary outcome. 
-
-\subsection{Stools and vomiting episodes}
-
-Frequency of stools and vomiting is to be modelled using poisson regression (or analogous approach if the poisson likelihood is deemed inappropriate).
-
-\subsection{Symptoms - presence and severity}
-
-Symptom presence and severity is to be modelled by adopting a cumulative logistic regression model.
-Groups will be collapsed as necessary.
-
-\subsection{Dehydration - presence and severity}
-
-Presence of dehydration is to be modelled by adopting a logistic regression model, or cumulative logistic regression model if ordinal information on severity is available.
-For cumulative logistic regression, groups will be collapsed as necessary.
-
-\subsection{Rehydration}
-
-Rehydration (total duration of IV, IO or NG rehydration from randomisation) is to be modelled following methods equivalent to those specified for the primary outcome. 
-
-\section{Safety analyses}
-
-Safety analyses are to be restricted to descriptive summaries.
-
-The frequency of mortality within 60 days of randomisation, recurrent gastroenteritis requiring health care assessment and/or intervention within 60 days of randomisation, malnutrition and prolongation of acute gastroenteritis beyond day 7 after randomisation, are to be reported. 
-
-For each SAE, ratings by treatment group are to be summarised by frequencies and grouping per the relationship of each SAE to study medication (none, unlikely, possible, or probable).
-
-\section{Sensitivity analyses}
-
-Sensitivity analyses concentrate on prior specifications examining the impact of varying priors (skeptical, enthusiastic, non-informative).
-Any post-hoc analyses undertaken are to be reported as such.
-
-\section{Subgroup analyses}
-
-Subgroup analyses to explore treatment heterogeneity were originally pre-specified on pathogen type (bacteria, virus or parasite), rotavirus vaccination status, age and illness severity.
-However, given the relatively small maximum sample size, we consider subgroup analyses will likely be misleading at best and have therefore made the decision not to pursue any investigation of treatment heterogeneity.
-In passing we also note that it is now uncommon for children to be unvaccinated, which means there will likely be insufficient numbers to stratify on vaccination status.
-
-\section{Operating characteristics}
+\section{Summary of operating characteristics}\label{summary-of-operating-characteristics}
 
 Simulations were implemented using the FACTs software \cite{facts} in order to evaluate the operating characteristics of the trial under a range of scenarios.
-
 Two thousand simulated trials were run for each scenario with all simulations configured such that:
 
 \begin{itemize}
@@ -641,21 +678,15 @@ Table \ref{table:sims} summarises the results.
 \label{table:sims}
 \end{table}
 
-It is possible to estimate the experiment-wise type 1 error rate and power for comparison with frequentist methods using the results in the `Null' column from Table \ref{table:sims}.
-These results are consistent with the study having a one-sided 5\% type 1 error rate (i.e. 4.1\%+0.6\%+0.3\%).
+The experiment-wise type 1 error rate and power (for comparison with frequentist methods) corresponds to the results in the `Null' column from Table \ref{table:sims}.
+These are consistent with the study having a one-sided 5\% type 1 error rate (i.e. 4.1\%+0.6\%+0.3\%).
 The statistical power of the study is dependent on the size of the treatment effect, however, for hazard ratios of 2.0, 1.6 and 1.33 the estimated power is approximately 100\%, 98\% and 76\%, respectively. Similarly, the final trial sample size will depend on the size of treatment effect and only mean sample sizes for each scenario are presented.
 
-\section{Quality control plan}
+\section{Reporting}
 
-Analyses will be subjected to review by a statistician from University of Sydney or Telethon Kids institute who has no other involvement in the trial.
-
+All results will be documented within a clinical study/trial report \cite{fda1996} that will constitute the primary source for results that will be used in preparing manuscripts associated with NICEGUT.
 
 \section{Supplementary information}
-
-\subsection{List of abbreviations}
-
-\textbf{TBD}
-
 
 \subsection{Ethics approval and consent to participate}
 
@@ -675,7 +706,7 @@ Code and simulated data is available from \textbf{tbd link} in order than resear
 
 \subsection{Competing interests} 
 
-MJ, JM, TS have no conflicts of interest to disclose.
+MJ, CW, JM, TS have no conflicts of interest to disclose.
 
 \subsection{Funding}
 
@@ -685,7 +716,7 @@ Fellowship support was provided by The National Health Medical Research Council 
 \subsection{Authors' contributions}
 
 MJ produced the SAP based on an earlier unpublished internal version and by reviewing the protocol documentation prior to working on the trial data.
-JM and TS provided substantial contributions to the formulation of the trial. 
+CW, JM, TS provided substantial contributions to the formulation of the trial. 
 All authors read, edited and approved the manuscript for submission.
 
 \subsection{Acknowledgements}
@@ -693,20 +724,7 @@ All authors read, edited and approved the manuscript for submission.
 We thank all the participants in the NICEGUT trial and the doctors, nurses, pharmacists and research staff at participating sites who ensure the successful implementation of the trial.
 TS is supported by a NHMRC Early Leadership Award (MRFF119513). 
 
-\underline{Study Clinician:} 
-
-\underline{Project Manager:}
-
-\underline{Central Management Team:} 
-
-\underline{Statistical Team:} Mark Jones, Julie Marsh, Tom Snelling
-
-\underline{Data Safety Monitoring Board:} 
-
 \appendix
-
-
-
 
 
 \footnotesize~\vspace{-1.25cm}
